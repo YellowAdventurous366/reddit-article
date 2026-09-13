@@ -39,6 +39,81 @@ button{font-family:"Reddit Sans",sans-serif;border:0;border-radius:999px;padding
 .article-body img{max-width:100%}
 @media(max-width:700px){.hero h1{font-size:40px}.card{padding:22px}.preview-title{font-size:32px}}
 </style>
+
+<style id="article-theme-override">
+.article-preview-page {
+  background: #f6f7f8;
+  padding: 0 0 48px;
+  border-radius: 24px;
+  overflow: hidden;
+}
+.article-preview-page .article-hero {
+  background: #ffc21a;
+  padding: 56px 48px 90px;
+}
+.article-preview-page .article-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.article-preview-page .article-hero h1 {
+  margin: 0;
+  color: #1c1c1c;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05;
+  font-weight: 800;
+}
+.article-preview-page .article-hero .subtitle {
+  margin: 18px 0 0;
+  color: #1c1c1c;
+  font-size: 20px;
+  line-height: 1.45;
+}
+.article-preview-page .article-body-card {
+  position: relative;
+  max-width: 900px;
+  margin: -54px auto 0;
+  padding: 42px 48px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+.article-preview-page .article-body {
+  color: #1c1c1c;
+  font-size: 17px;
+  line-height: 1.7;
+}
+.article-preview-page .article-body h1,
+.article-preview-page .article-body h2,
+.article-preview-page .article-body h3 {
+  line-height: 1.2;
+  margin: 1.4em 0 .55em;
+}
+.article-preview-page .article-body h1 { font-size: 34px; }
+.article-preview-page .article-body h2 { font-size: 28px; }
+.article-preview-page .article-body h3 { font-size: 23px; }
+.article-preview-page .article-body p { margin: 0 0 1em; }
+.article-preview-page .article-body img { max-width: 100%; border-radius: 12px; }
+.article-preview-page .article-body blockquote {
+  margin: 1.2em 0;
+  padding: 12px 18px;
+  border-left: 4px solid #ff4500;
+  background: #fff7f2;
+}
+.article-preview-page .article-body pre {
+  padding: 16px;
+  overflow-x: auto;
+  background: #f6f7f8;
+  border-radius: 10px;
+}
+.article-preview-page .article-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (max-width: 700px) {
+  .article-preview-page .article-hero { padding: 40px 24px 76px; }
+  .article-preview-page .article-body-card { margin: -44px 16px 0; padding: 30px 24px; }
+}
+</style>
+
 </head>
 <body>
 <section class="hero">
@@ -145,5 +220,6 @@ document.getElementById("download").onclick=async()=>{
 };
 update();
 </script>
+
 </body>
 </html>
