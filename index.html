@@ -1,225 +1,496 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Article Creator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--orange:#ff4500;--yellow:#ffc21a;--bg:#f6f7f8;--card:#fff;--border:#e6e6e6;--text:#1c1c1c;--muted:#6a6d70}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:"Reddit Sans",sans-serif}
-.hero{background:var(--yellow);padding:64px 24px 110px}
-.hero-content{max-width:1000px;margin:auto}
-.hero h1{margin:0;font-size:52px;font-weight:800}
-.hero p{margin:14px 0 0;font-size:19px}
-.container{max-width:1000px;margin:-56px auto 70px;padding:0 24px}
-.card{background:var(--card);border-radius:24px;padding:32px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
-.field{margin-bottom:24px}
-label{display:block;font-weight:700;margin-bottom:9px}
-input,textarea{width:100%;border:1px solid var(--border);border-radius:14px;padding:14px 16px;font:inherit;color:var(--text);outline:none;background:#fff}
-input:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,69,0,.12)}
-textarea{min-height:420px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.55}
-.hint{color:var(--muted);font-size:14px;margin-top:7px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
-button{font-family:"Reddit Sans",sans-serif;border:0;border-radius:999px;padding:14px 24px;font-weight:700;cursor:pointer}
-.primary{background:var(--orange);color:#fff}.secondary{background:#eee;color:var(--text)}
-.preview{margin-top:30px;border-top:1px solid var(--border);padding-top:30px}
-.preview-title{font-size:42px;line-height:1.08;margin:0 0 8px;font-weight:800}
-.preview-subtitle{font-size:21px;color:var(--muted);margin:0 0 28px;line-height:1.4}
-.article-body{font-family:"Reddit Sans",sans-serif;font-size:18px;line-height:1.65}
-.article-body h1,.article-body h2,.article-body h3{line-height:1.2}
-.article-body h1{font-size:34px}.article-body h2{font-size:28px}.article-body h3{font-size:23px}
-.article-body p{margin:0 0 18px}.article-body ul,.article-body ol{padding-left:28px}
-.article-body blockquote{border-left:4px solid var(--orange);margin:20px 0;padding:4px 18px;color:var(--muted)}
-.article-body code{background:#f1f1f1;padding:2px 5px;border-radius:5px}
-.article-body pre{background:#1c1c1c;color:#fff;padding:16px;border-radius:12px;overflow:auto}
-.article-body img{max-width:100%}
-@media(max-width:700px){.hero h1{font-size:40px}.card{padding:22px}.preview-title{font-size:32px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article Creator</title>
 
-<style id="article-theme-override">
-.article-preview-page {
-  background: #f6f7f8;
-  padding: 0 0 48px;
-  border-radius: 24px;
-  overflow: hidden;
-}
-.article-preview-page .article-hero {
-  background: #ffc21a;
-  padding: 56px 48px 90px;
-}
-.article-preview-page .article-hero-inner {
-  max-width: 900px;
-  margin: 0 auto;
-}
-.article-preview-page .article-hero h1 {
-  margin: 0;
-  color: #1c1c1c;
-  font-size: clamp(36px, 5vw, 56px);
-  line-height: 1.05;
-  font-weight: 800;
-}
-.article-preview-page .article-hero .subtitle {
-  margin: 18px 0 0;
-  color: #1c1c1c;
-  font-size: 20px;
-  line-height: 1.45;
-}
-.article-preview-page .article-body-card {
-  position: relative;
-  max-width: 900px;
-  margin: -54px auto 0;
-  padding: 42px 48px;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.08);
-}
-.article-preview-page .article-body {
-  color: #1c1c1c;
-  font-size: 17px;
-  line-height: 1.7;
-}
-.article-preview-page .article-body h1,
-.article-preview-page .article-body h2,
-.article-preview-page .article-body h3 {
-  line-height: 1.2;
-  margin: 1.4em 0 .55em;
-}
-.article-preview-page .article-body h1 { font-size: 34px; }
-.article-preview-page .article-body h2 { font-size: 28px; }
-.article-preview-page .article-body h3 { font-size: 23px; }
-.article-preview-page .article-body p { margin: 0 0 1em; }
-.article-preview-page .article-body img { max-width: 100%; border-radius: 12px; }
-.article-preview-page .article-body blockquote {
-  margin: 1.2em 0;
-  padding: 12px 18px;
-  border-left: 4px solid #ff4500;
-  background: #fff7f2;
-}
-.article-preview-page .article-body pre {
-  padding: 16px;
-  overflow-x: auto;
-  background: #f6f7f8;
-  border-radius: 10px;
-}
-.article-preview-page .article-body code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-@media (max-width: 700px) {
-  .article-preview-page .article-hero { padding: 40px 24px 76px; }
-  .article-preview-page .article-body-card { margin: -44px 16px 0; padding: 30px 24px; }
-}
-</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&family=Reddit+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
+  <style>
+    :root {
+      --reddit-orange: #ff4500;
+      --reddit-yellow: #ffc21a;
+      --background: #f6f7f8;
+      --card: #ffffff;
+      --border: #e6e6e6;
+      --text: #1c1c1c;
+      --muted: #6a6d70;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: "Reddit Sans", sans-serif;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .site-header {
+      padding: 28px 24px 0;
+    }
+
+    .editor-shell {
+      max-width: 1180px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    .editor-card {
+      margin-top: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .editor-title {
+      margin: 0 0 6px;
+      font-size: 32px;
+      font-weight: 800;
+    }
+
+    .editor-description {
+      margin: 0 0 28px;
+      color: var(--muted);
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      outline: none;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .field input {
+      height: 52px;
+      padding: 0 16px;
+      font-size: 18px;
+    }
+
+    .field textarea {
+      min-height: 300px;
+      padding: 16px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      line-height: 1.55;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--reddit-orange);
+      box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.12);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 13px 22px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--reddit-orange);
+      color: #fff;
+    }
+
+    .secondary {
+      background: #e9e9e9;
+      color: var(--text);
+    }
+
+    .preview-heading {
+      margin: 44px 0 16px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       ARTICLE / EXPORT DESIGN
+       ========================= */
+
+    #articlePreview {
+      background: var(--background);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .article-page {
+      background: var(--background);
+      padding-bottom: 56px;
+    }
+
+    .article-hero {
+      background: var(--reddit-yellow);
+      padding: 72px 48px 125px;
+    }
+
+    .article-hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .article-hero h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 68px);
+      line-height: 1.03;
+      letter-spacing: -1.5px;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .article-subtitle {
+      margin: 20px 0 0;
+      max-width: 800px;
+      font-size: 23px;
+      line-height: 1.45;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    .article-body-card {
+      position: relative;
+      max-width: 900px;
+      margin: -70px auto 0;
+      padding: 48px;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .article-body {
+      font-size: 18px;
+      line-height: 1.72;
+      overflow-wrap: anywhere;
+    }
+
+    .article-body > :first-child {
+      margin-top: 0;
+    }
+
+    .article-body > :last-child {
+      margin-bottom: 0;
+    }
+
+    .article-body h1,
+    .article-body h2,
+    .article-body h3 {
+      line-height: 1.2;
+      font-weight: 800;
+      margin: 1.35em 0 0.55em;
+    }
+
+    .article-body h1 {
+      font-size: 36px;
+    }
+
+    .article-body h2 {
+      font-size: 29px;
+    }
+
+    .article-body h3 {
+      font-size: 23px;
+    }
+
+    .article-body p {
+      margin: 0 0 1em;
+    }
+
+    .article-body ul,
+    .article-body ol {
+      margin: 0 0 1.2em;
+      padding-left: 28px;
+    }
+
+    .article-body li {
+      margin: 0.3em 0;
+    }
+
+    .article-body blockquote {
+      margin: 1.3em 0;
+      padding: 14px 20px;
+      border-left: 4px solid var(--reddit-orange);
+      background: #fff7f2;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .article-body a {
+      color: var(--reddit-orange);
+      font-weight: 600;
+    }
+
+    .article-body code {
+      padding: 2px 6px;
+      background: #f0f0f0;
+      border-radius: 5px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9em;
+    }
+
+    .article-body pre {
+      margin: 1.2em 0;
+      padding: 18px;
+      overflow-x: auto;
+      background: #f6f7f8;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .article-body pre code {
+      padding: 0;
+      background: none;
+    }
+
+    .article-body img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 20px auto;
+      border-radius: 14px;
+    }
+
+    .article-body hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    .article-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2em 0;
+    }
+
+    .article-body th,
+    .article-body td {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .article-body th {
+      font-weight: 700;
+      background: #f6f7f8;
+    }
+
+    .empty-body {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 700px) {
+      .editor-shell {
+        padding: 0 14px;
+      }
+
+      .editor-card {
+        padding: 22px;
+        border-radius: 18px;
+      }
+
+      .article-hero {
+        padding: 48px 24px 105px;
+      }
+
+      .article-body-card {
+        margin: -58px 14px 0;
+        padding: 30px 24px;
+      }
+
+      .article-body {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<section class="hero">
-  <div class="hero-content">
-    <h1>Article Creator</h1>
-    <p>Write an article in Markdown, preview it, and download it as an image.</p>
-  </div>
-</section>
-<div class="container">
-  <div class="card">
-    <div class="field">
-      <label for="title">Title</label>
-      <input id="title" placeholder="Your article title">
-    </div>
-    <div class="field">
-      <label for="subtitle">Subtitle</label>
-      <input id="subtitle" placeholder="A short description or subtitle">
-    </div>
-    <div class="field">
-      <label for="body">Body</label>
-      <textarea id="body" placeholder="# Your article
+  <main class="editor-shell">
+    <section class="editor-card">
+      <h1 class="editor-title">Article Creator</h1>
+      <p class="editor-description">
+        Write an article in Markdown, preview it below, and download the finished
+        article as an image.
+      </p>
 
-Write your article here using Markdown.
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" type="text" placeholder="Your article title" />
+      </div>
 
-## A heading
+      <div class="field">
+        <label for="subtitle">Subtitle</label>
+        <input id="subtitle" type="text" placeholder="A short description of your article" />
+      </div>
 
-**Bold**, *italic*, lists, links, blockquotes, and code are supported."></textarea>
-      <div class="hint">Markdown is supported. The preview updates as you type.</div>
-    </div>
-    <div class="actions">
-      <button class="primary" id="download">Download as image</button>
-      <button class="secondary" id="clear">Clear</button>
-    </div>
-    <section class="preview" id="article">
-      <h2 class="preview-title" id="previewTitle">Your article title</h2>
-      <p class="preview-subtitle" id="previewSubtitle">A short description or subtitle</p>
-      <div class="article-body" id="previewBody"><p>Start writing your article above.</p></div>
+      <div class="field">
+        <label for="body">Body (Markdown supported)</label>
+        <textarea
+          id="body"
+          placeholder="# Heading
+
+Write your article here...
+
+Use **bold**, *italic*, lists, links, blockquotes, code, and more."
+        ></textarea>
+      </div>
+
+      <div class="toolbar">
+        <button class="primary" id="downloadButton" type="button">
+          Download as Image
+        </button>
+        <button class="secondary" id="clearButton" type="button">
+          Clear
+        </button>
+      </div>
+
+      <h2 class="preview-heading">Preview</h2>
+
+      <div id="articlePreview">
+        <div class="article-page">
+          <section class="article-hero">
+            <div class="article-hero-inner">
+              <h1 id="previewTitle">Your Article Title</h1>
+              <p class="article-subtitle" id="previewSubtitle">
+                Your subtitle goes here
+              </p>
+            </div>
+          </section>
+
+          <article class="article-body-card">
+            <div class="article-body" id="previewBody">
+              <p class="empty-body">Your Markdown article will appear here.</p>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
-  </div>
-</div>
-<script>
-const title=document.getElementById("title");
-const subtitle=document.getElementById("subtitle");
-const body=document.getElementById("body");
-const previewTitle=document.getElementById("previewTitle");
-const previewSubtitle=document.getElementById("previewSubtitle");
-const previewBody=document.getElementById("previewBody");
+  </main>
 
-function escapeHtml(s){
-  return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-}
-function markdown(md){
-  let s=escapeHtml(md);
-  const blocks=[];
-  s=s.replace(/```([\s\S]*?)```/g,(_,x)=>{blocks.push("<pre><code>"+x.trim()+"</code></pre>");return "\n@@BLOCK"+(blocks.length-1)+"@@\n";});
-  s=s.replace(/^### (.*)$/gm,"<h3>$1</h3>")
-    .replace(/^## (.*)$/gm,"<h2>$1</h2>")
-    .replace(/^# (.*)$/gm,"<h1>$1</h1>")
-    .replace(/^> (.*)$/gm,"<blockquote>$1</blockquote>")
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1">')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
-    .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
-    .replace(/__([^_]+)__/g,"<strong>$1</strong>")
-    .replace(/\*([^*]+)\*/g,"<em>$1</em>")
-    .replace(/_([^_]+)_/g,"<em>$1</em>")
-    .replace(/`([^`]+)`/g,"<code>$1</code>");
-  s=s.replace(/(?:^|\n)((?:[-*] .*(?:\n|$))+)/g,m=>"<ul>"+m.trim().split("\n").map(x=>"<li>"+x.replace(/^[-*] /,"")+"</li>").join("")+"</ul>")
-    .replace(/(?:^|\n)((?:\d+\. .*(?:\n|$))+)/g,m=>"<ol>"+m.trim().split("\n").map(x=>"<li>"+x.replace(/^\d+\. /,"")+"</li>").join("")+"</ol>");
-  s=s.split(/\n{2,}/).map(x=>{
-    x=x.trim(); if(!x)return "";
-    if(/^<(h[1-3]|ul|ol|blockquote|pre|img)/.test(x)||/^@@BLOCK/.test(x))return x;
-    return "<p>"+x.replace(/\n/g,"<br>")+"</p>";
-  }).join("");
-  return s.replace(/@@BLOCK(\d+)@@/g,(_,i)=>blocks[+i]);
-}
-function update(){
-  previewTitle.textContent=title.value||"Your article title";
-  previewSubtitle.textContent=subtitle.value||"A short description or subtitle";
-  previewBody.innerHTML=body.value?markdown(body.value):"<p>Start writing your article above.</p>";
-}
-[title,subtitle,body].forEach(x=>x.addEventListener("input",update));
-document.getElementById("clear").onclick=()=>{title.value="";subtitle.value="";body.value="";update();};
-document.getElementById("download").onclick=async()=>{
-  update();
-  const article=document.getElementById("article");
-  const scale=2, pad=48;
-  const width=Math.min(1000,Math.max(600,article.scrollWidth))+pad*2;
-  const height=article.scrollHeight+pad*2;
-  const clone=article.cloneNode(true);
-  clone.style.cssText=`position:absolute;left:-99999px;top:0;width:${width-pad*2}px;padding:${pad}px;background:#fff;box-sizing:border-box;`;
-  document.body.appendChild(clone);
-  const canvas=document.createElement("canvas");
-  canvas.width=width*scale; canvas.height=height*scale;
-  const ctx=canvas.getContext("2d");
-  ctx.scale(scale,scale); ctx.fillStyle="#fff"; ctx.fillRect(0,0,width,height);
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <foreignObject width="100%" height="100%">
-      <div xmlns="http://www.w3.org/1999/xhtml">${clone.outerHTML}</div>
-    </foreignObject></svg>`;
-  const img=new Image();
-  img.onload=()=>{ctx.drawImage(img,0,0);canvas.toBlob(blob=>{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(title.value.trim()||"article").replace(/[^a-z0-9_-]+/gi,"-")+".png";a.click();URL.revokeObjectURL(a.href);document.body.removeChild(clone);},"image/png");};
-  img.onerror=()=>{document.body.removeChild(clone);alert("Your browser could not render the article as an image.");};
-  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
-};
-update();
-</script>
+  <!-- Markdown parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- HTML-to-image library -->
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
 
+  <script>
+    const titleInput = document.getElementById("title");
+    const subtitleInput = document.getElementById("subtitle");
+    const bodyInput = document.getElementById("body");
+
+    const previewTitle = document.getElementById("previewTitle");
+    const previewSubtitle = document.getElementById("previewSubtitle");
+    const previewBody = document.getElementById("previewBody");
+
+    marked.setOptions({
+      gfm: true,
+      breaks: true
+    });
+
+    function updatePreview() {
+      previewTitle.textContent =
+        titleInput.value.trim() || "Your Article Title";
+
+      previewSubtitle.textContent =
+        subtitleInput.value.trim() || "Your subtitle goes here";
+
+      const markdown = bodyInput.value.trim();
+
+      if (!markdown) {
+        previewBody.innerHTML =
+          '<p class="empty-body">Your Markdown article will appear here.</p>';
+        return;
+      }
+
+      previewBody.innerHTML = marked.parse(markdown);
+    }
+
+    titleInput.addEventListener("input", updatePreview);
+    subtitleInput.addEventListener("input", updatePreview);
+    bodyInput.addEventListener("input", updatePreview);
+
+    document.getElementById("clearButton").addEventListener("click", () => {
+      titleInput.value = "";
+      subtitleInput.value = "";
+      bodyInput.value = "";
+      updatePreview();
+    });
+
+    document.getElementById("downloadButton").addEventListener("click", async () => {
+      const button = document.getElementById("downloadButton");
+      const article = document.getElementById("articlePreview");
+
+      button.disabled = true;
+      button.textContent = "Creating image...";
+
+      try {
+        await document.fonts.ready;
+
+        const dataUrl = await htmlToImage.toPng(article, {
+          pixelRatio: 2,
+          cacheBust: true,
+          backgroundColor: "#f6f7f8"
+        });
+
+        const link = document.createElement("a");
+        const safeTitle =
+          (titleInput.value.trim() || "article")
+            .replace(/[<>:"/\\\\|?*]+/g, "")
+            .replace(/\\s+/g, "-")
+            .slice(0, 80);
+
+        link.download = safeTitle + ".png";
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.error(error);
+        alert(
+          "The image could not be generated. Please make sure you are connected to the internet and try again."
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Download as Image";
+      }
+    });
+
+    updatePreview();
+  </script>
 </body>
 </html>
